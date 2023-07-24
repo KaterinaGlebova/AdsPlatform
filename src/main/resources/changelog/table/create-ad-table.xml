@@ -1,0 +1,21 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="createTable_ad" author="glebova">
+        <createTable tableName="ad">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="price" type="BIGINT"/>
+            <column name="author_id" type="BIGINT">
+                <constraints foreignKeyName="fk_ad_users"
+                             references="users(id)"/>
+            </column>
+            <column name="path_to_image" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

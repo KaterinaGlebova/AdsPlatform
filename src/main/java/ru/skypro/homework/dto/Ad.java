@@ -9,7 +9,7 @@ public class Ad {
     private int author;
     private String image;
     private int pk;
-    private int prise;
+    private int price;
     private String title;
 
 }
