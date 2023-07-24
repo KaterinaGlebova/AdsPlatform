@@ -6,5 +6,5 @@ import java.util.List;
 @Data
 public class Comments {
     private int count;
-    private List<Comment> result;
+    private List<CommentDTO> result;
 }

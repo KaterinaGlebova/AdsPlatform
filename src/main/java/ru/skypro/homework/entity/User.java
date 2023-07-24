@@ -34,14 +34,6 @@ public class User {
     @Column(name = "path_to_image")
     private String image;
 
-   // @Column (name ="ads")
-   // @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-   // private List<Ad> ads;
-
-   // @Column (name ="comments")
-   // @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-   // private List<Comment> comments;
-
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;

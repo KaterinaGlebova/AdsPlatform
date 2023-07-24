@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 
-public class Ad {
+public class AdDTO {
 
     private int author;
     private String image;
