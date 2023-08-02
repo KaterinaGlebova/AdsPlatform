@@ -1,6 +1,7 @@
 package ru.skypro.homework.entity;
 import lombok.*;
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,4 +30,10 @@ public class Ad {
 
     @Column(name = "path_to_image")
     private String image;
+
+    @Column(name = "description")
+    private String description;
+
+    @OneToMany(mappedBy = "ad")
+    private List<Comment> comments;
 }

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 import ru.skypro.homework.entity.Ad;
 
 @Repository
-public interface AdRepository extends JpaRepository <Ad, Long> {
+public interface AdRepository extends JpaRepository <Ad, Integer> {
 
-    Ad getAdById(Long id);
+    Ad findAdById(int id);
 }

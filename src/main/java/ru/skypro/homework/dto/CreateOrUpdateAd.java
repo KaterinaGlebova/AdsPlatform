@@ -6,6 +6,6 @@ import lombok.Data;
 public class CreateOrUpdateAd {
 
     private String description;
-    private int prise;
+    private int price;
     private String title;
 }
