@@ -7,8 +7,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.*;
 import ru.skypro.homework.service.AdService;
@@ -60,8 +62,9 @@ public class AdController {
                     )
             })
     @PostMapping()
-    public ResponseEntity<AdDTO> createAd(@PathVariable CreateOrUpdateAd createOrUpdateAd, String image){
-        return ResponseEntity.ok(adService.createAd(createOrUpdateAd, image));
+    public ResponseEntity<AdDTO> createAd(@PathVariable CreateOrUpdateAd createOrUpdateAd, String image,  Authentication authentication){
+        AdDTO result = adService.createAd(createOrUpdateAd, authentication, image);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @Operation(summary = "Получение информации об объявлении",
@@ -114,8 +117,8 @@ public class AdController {
                     )
             })
     @DeleteMapping("/{id}")
-    public ResponseEntity <Void> deleteAd(@PathVariable int id) {
-        adService.deleteAd(id);
+    public ResponseEntity<Void> deleteAd(@PathVariable(name = "id") int id, Authentication authentication) {
+        adService.deleteAd(id, authentication);
         return ResponseEntity.ok().build();
     }
 
