@@ -1,5 +1,8 @@
 package ru.skypro.homework.service;
+
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.AdDTO;
 import ru.skypro.homework.dto.Ads;
 import ru.skypro.homework.dto.CreateOrUpdateAd;
@@ -12,7 +15,7 @@ public interface AdService {
 
     Ad adAd(Ad ad);
 
-    AdDTO createAd(CreateOrUpdateAd createOrUpdateAd, Authentication authentication, String image);
+    AdDTO createAd(CreateOrUpdateAd createOrUpdateAd, Authentication authentication, MultipartFile image);
 
     ExtendedAd getExtendedAd(int id);
 
@@ -21,7 +24,14 @@ public interface AdService {
     void deleteAd(int id, Authentication authentication);
 
     AdDTO updateAd(int id, CreateOrUpdateAd createOrUpdateAd);
+
     Ads getAllByAuthor(Authentication authentication);
-    //CreateOrUpdateAd getAdMe();
-    //ResponseEntity<String> updateAdImage(int id, String image);
+
+    void updateImage(int id, MultipartFile image, Authentication authentication);
+
+    byte[] getImage(int id);
+
+    MediaType getImageType(int id);
+
+
 }

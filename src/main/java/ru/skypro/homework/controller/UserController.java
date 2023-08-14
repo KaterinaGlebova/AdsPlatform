@@ -112,6 +112,7 @@ public class UserController {
 
     @PatchMapping("/me/image")
     public ResponseEntity<Void> changeImage(@RequestBody MultipartFile image, Authentication authentication) {
+        userService.setImage(image, authentication);
         return ResponseEntity.ok().build();
     }
 

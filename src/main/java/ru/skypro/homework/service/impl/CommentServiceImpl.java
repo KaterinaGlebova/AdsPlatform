@@ -38,17 +38,19 @@ public class CommentServiceImpl implements CommentService {
      * @param adId
      * @return object DTO Comments
      */
+    @Override
     public Comments getCommentByAdId(int adId) {
         Ad ad = adService.getById(adId);
         return commentMapper.toComments(commentRepository.findAllByAd(ad));
     }
 
     /**
-     * Пget comment by id
+     * get comment by id
      *
      * @param id
      * @return object comment
      */
+    @Override
     public Comment getCommentById(int id) {
         return commentRepository.getCommentById(id);
     }
@@ -60,6 +62,7 @@ public class CommentServiceImpl implements CommentService {
      * @param createOrUpdateComment
      * @return object commentDTO
      */
+    @Override
     public CommentDTO createComment(int adId, CreateOrUpdateComment createOrUpdateComment, Authentication authentication) {
         Ad ad = adService.getById(adId);
         User user = userService.getFromAuthentication(authentication);
@@ -77,6 +80,7 @@ public class CommentServiceImpl implements CommentService {
      * @param adId
      * @param id
      */
+    @Override
     public void deleteComment(int adId, int id, Authentication authentication) {
         Comment comment = getCommentById(id);
         adService.getById(adId);
@@ -92,6 +96,7 @@ public class CommentServiceImpl implements CommentService {
      * @param createOrUpdateComment
      * @return object commentDTO
      */
+    @Override
     public CommentDTO update(int adId, int id, CreateOrUpdateComment createOrUpdateComment, Authentication authentication) {
         Comment comment = getCommentById(id);
         adService.getById(adId);
@@ -104,7 +109,8 @@ public class CommentServiceImpl implements CommentService {
     private void checkAuthor(Comment comment, Authentication authentication) {
         User user = userService.getFromAuthentication(authentication);
         if (user.getRole() != Role.ADMIN && !user.equals(comment.getUser())) {
-            throw new ForbiddenException(String.format("%s can't edit or delete this comment", user.getEmail()));
+            throw new ForbiddenException(String.format("%s Вы не можете редактировать или удалить данный комментарий",
+                    user.getEmail()));
         }
     }
 }

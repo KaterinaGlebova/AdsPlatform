@@ -12,8 +12,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
 import ru.skypro.homework.service.AdService;
+
+import java.io.IOException;
 
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
@@ -62,7 +65,7 @@ public class AdController {
                     )
             })
     @PostMapping()
-    public ResponseEntity<AdDTO> createAd(@PathVariable CreateOrUpdateAd createOrUpdateAd, String image,  Authentication authentication){
+    public ResponseEntity<AdDTO> createAd(@PathVariable CreateOrUpdateAd createOrUpdateAd, MultipartFile image, Authentication authentication){
         AdDTO result = adService.createAd(createOrUpdateAd, authentication, image);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
@@ -154,15 +157,60 @@ public class AdController {
         return ResponseEntity.ok(adService.updateAd(id, createOrUpdateAd));
     }
 
-    @Operation(summary = "Получение объявлений авторизованного пользователя")
+    @Operation(summary = "Получение объявлений авторизованного пользователя",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Ok",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Ads.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
+                    )
+            })
     @GetMapping("/me")
-    public ResponseEntity <CreateOrUpdateAd> getAdMe() {
-        return ResponseEntity.ok (new CreateOrUpdateAd());
+    public ResponseEntity<Ads> getUsersAds(Authentication authentication) {
+        return ResponseEntity.ok(adService.getAllByAuthor(authentication));
     }
 
-    @Operation(summary = "Обновление картинки объявления")
+    @Operation(summary = "Обновление картинки объявления",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Ok",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = MultipartFile.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not found"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden"
+                    )
+            })
     @PatchMapping("/{id}/image")
-    public ResponseEntity <String> updateAdImage(@PathVariable int id, @RequestBody String image ){
-        return ResponseEntity.ok(image);
+    public ResponseEntity<byte[]> updateImageAd(@PathVariable int id,
+                                              @RequestBody MultipartFile image, Authentication authentication) {
+        try {
+            adService.updateImage(id, image, authentication);
+            return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(image.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
