@@ -62,7 +62,7 @@ public class ImageController {
 
                     )
             })
-    @GetMapping(value = "/ad/{id}/image")
+    @GetMapping(value = "/ad/{id}")
     public byte[] getAdImage(@PathVariable int id) {
         return adService.getImage(id);
     }
