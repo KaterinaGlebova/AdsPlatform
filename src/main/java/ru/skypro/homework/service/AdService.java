@@ -17,7 +17,7 @@ public interface AdService {
 
     AdDTO createAd(CreateOrUpdateAd createOrUpdateAd, MultipartFile image, Authentication authentication);
 
-    ExtendedAd getExtendedAd(int id);
+    ExtendedAd getFullInfo(int id);
 
     Ad getById(int id);
 

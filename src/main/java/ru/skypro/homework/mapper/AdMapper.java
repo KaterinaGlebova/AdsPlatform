@@ -44,7 +44,7 @@ public interface AdMapper {
    default Ads adToAds(List<Ad> adList) {
        Ads ads = new Ads();
        ads.setCount(adList.size());
-       ads.setResult(adList.stream()
+       ads.setResults(adList.stream()
                .map(this::adToAdDTO)
                .collect(Collectors.toList()));
        return ads;

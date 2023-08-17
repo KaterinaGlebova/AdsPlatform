@@ -13,5 +13,7 @@
         <include file="changelog/table/update-users-table-type.xml"/>
         <include file="changelog/table/update-ad-table-type.xml"/>
         <include file="changelog/table/update-comment-table-type.xml"/>
+        <include file="changelog/table/update-comment-table-type4.xml"/>
+        <include file="changelog/table/update-comment-table-type5.xml"/>
 
 </databaseChangeLog>

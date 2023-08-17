@@ -82,7 +82,7 @@ public class AdServiceImpl implements AdService {
         ad.setDescription(newAd.getDescription());
         adAd(ad);
         setImage(image, ad);
-        return adMapper.adToAdDTO(adAd(ad));
+        return adMapper.adToAdDTO(adRepository.save(ad));
     }
 
     /**
@@ -92,8 +92,7 @@ public class AdServiceImpl implements AdService {
      * @return object DTO extendedAd
      */
     @Override
-    public ExtendedAd getExtendedAd(int id) {
-        Ad ad = getById(id);
+    public ExtendedAd getFullInfo(int id) {
         return adMapper.toExtendedAd(getById(id));
     }
 

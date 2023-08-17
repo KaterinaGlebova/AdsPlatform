@@ -9,6 +9,7 @@ import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.entity.User;
 import ru.skypro.homework.exception.ForbiddenException;
+import ru.skypro.homework.exception.NotFoundElementException;
 import ru.skypro.homework.mapper.CommentMapper;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.service.AdService;
@@ -16,6 +17,8 @@ import ru.skypro.homework.service.CommentService;
 import ru.skypro.homework.service.UserService;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -47,12 +50,16 @@ public class CommentServiceImpl implements CommentService {
     /**
      * get comment by id
      *
-     * @param id
+     * @param commentId
      * @return object comment
      */
     @Override
-    public Comment getCommentById(int id) {
-        return commentRepository.getCommentById(id);
+    public Comment getCommentById(int commentId) {
+        Optional<Comment> optional = commentRepository.findById(commentId);
+        if (optional.isEmpty()) {
+            throw new NotFoundElementException(commentId, Comment.class);
+        }
+        return optional.get();
     }
 
     /**
@@ -65,24 +72,25 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDTO createComment(int adId, CreateOrUpdateComment createOrUpdateComment, Authentication authentication) {
         Ad ad = adService.getById(adId);
-        User user = userService.getFromAuthentication(authentication);
+        User author = userService.getFromAuthentication(authentication);
         Comment comment = new Comment();
         comment.setText(createOrUpdateComment.getText());
-        comment.setCreatedAt(LocalDateTime.now());
+        comment.setCreatedAt(new Date());
         comment.setAd(ad);
-        comment.setUser(user);
+        comment.setUser(author);
         return commentMapper.commentToCommentDTO(commentRepository.save(comment));
     }
+
 
     /**
      * Delete comment by id
      *
      * @param adId
-     * @param id
+     * @param commentId
      */
     @Override
-    public void deleteComment(int adId, int id, Authentication authentication) {
-        Comment comment = getCommentById(id);
+    public void deleteComment(int adId, int commentId, Authentication authentication) {
+        Comment comment = getCommentById(commentId);
         adService.getById(adId);
         checkAuthor(comment, authentication);
         commentRepository.delete(comment);
@@ -92,17 +100,18 @@ public class CommentServiceImpl implements CommentService {
      * update comment by id
      *
      * @param adId
-     * @param id
+     * @param commentId
      * @param createOrUpdateComment
      * @return object commentDTO
      */
     @Override
-    public CommentDTO update(int adId, int id, CreateOrUpdateComment createOrUpdateComment, Authentication authentication) {
-        Comment comment = getCommentById(id);
+    public CommentDTO update(int adId, int commentId, CreateOrUpdateComment createOrUpdateComment,
+                             Authentication authentication) {
+        Comment comment = getCommentById(commentId);
         adService.getById(adId);
         checkAuthor(comment, authentication);
         comment.setText(createOrUpdateComment.getText());
-        comment.setCreatedAt(LocalDateTime.now());
+        comment.setCreatedAt(new Date());
         return commentMapper.commentToCommentDTO(commentRepository.save(comment));
     }
 

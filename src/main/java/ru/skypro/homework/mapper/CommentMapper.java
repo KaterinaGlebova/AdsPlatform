@@ -17,37 +17,22 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 
-    CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
-
-    @Mapping(source = "author", target = "user.id")
-    @Mapping(source = "authorImage", target = "user.image")
-    @Mapping(source = "authorFirstName", target = "user.firstName")
-    @Mapping(source = "createdAt", target = "createdAt", qualifiedByName = "toLocalDateTime")
-    @Mapping(source = "pk", target = "id")
-    Comment commentDtoToComment(CommentDTO commentDTO);
-
-    @Mapping(source = "user.id", target = "author")
-    @Mapping(source = "user.image", target = "authorImage")
-    @Mapping(source = "user.firstName", target = "authorFirstName")
-    @Mapping(source = "createdAt", target = "createdAt", qualifiedByName = "toMillis")
-    @Mapping(source = "id", target = "pk")
-    CommentDTO commentToCommentDTO(Comment comment);
-
-    @Named("toLocalDateTime")
-    default LocalDateTime toLocalDateTime(long value) {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(value), ZoneId.systemDefault());
-    }
-
-    @Named("toMillis")
-    default long toMillis(LocalDateTime value) {
-        return value.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    default CommentDTO commentToCommentDTO(Comment comment) {
+        CommentDTO result = new CommentDTO();
+        result.setAuthor(comment.getUser().getId());
+        result.setAuthorImage("/images/user/" + comment.getUser().getEmail());
+        result.setAuthorFirstName(comment.getUser().getFirstName());
+        result.setCreatedAt(comment.getCreatedAt().getTime());
+        result.setPk(comment.getId());
+        result.setText(comment.getText());
+        return result;
     }
     default Comments toComments(List<Comment> comments) {
-        Comments comments1 = new Comments();
-        comments1.setCount(comments.size());
-        comments1.setResult(comments.stream()
+        Comments result = new Comments();
+        result.setCount(comments.size());
+        result.setResults(comments.stream()
                 .map(this::commentToCommentDTO)
                 .collect(Collectors.toList()));
-        return comments1;
+        return result;
     }
 }

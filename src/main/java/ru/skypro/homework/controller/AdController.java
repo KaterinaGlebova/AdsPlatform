@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -65,9 +66,9 @@ public class AdController {
                     )
             })
     @PostMapping()
-    public ResponseEntity<AdDTO> newAd(@RequestPart CreateOrUpdateAd createOrUpdateAd,
-                                       @RequestPart MultipartFile image, Authentication authentication) {
-        AdDTO result = adService.createAd(createOrUpdateAd, image, authentication);
+    public ResponseEntity<AdDTO> createNewAd(@RequestPart(name = "properties") CreateOrUpdateAd object,
+                                             @RequestPart(name = "image") MultipartFile image, Authentication authentication) {
+        AdDTO result = adService.createAd(object, image, authentication);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -92,8 +93,8 @@ public class AdController {
                     )
             })
     @GetMapping("/{id}")
-    public ResponseEntity <ExtendedAd> getExtendedAd(@PathVariable int id, Authentication authentication ) {
-        ExtendedAd result = adService.getExtendedAd(id);
+    public ResponseEntity <ExtendedAd> getAdFullInfo(@PathVariable (name = "id") int id) {
+        ExtendedAd result = adService.getFullInfo(id);
         return ResponseEntity.ok(result);
     }
 
@@ -154,7 +155,8 @@ public class AdController {
                     )
             })
     @PatchMapping("/{id}")
-    public ResponseEntity <AdDTO> updateAd(@PathVariable int id, @RequestBody CreateOrUpdateAd createOrUpdateAd,
+    public ResponseEntity <AdDTO> updateAd(@PathVariable (name = "id") int id,
+                                           @RequestBody CreateOrUpdateAd createOrUpdateAd,
                                            Authentication authentication ) {
         return ResponseEntity.ok(adService.updateAd(id, createOrUpdateAd, authentication));
     }
@@ -203,8 +205,8 @@ public class AdController {
                     )
             })
     @PatchMapping("/{id}/image")
-    public ResponseEntity<byte[]> updateImageAd(@PathVariable int id,
-                                              @RequestBody MultipartFile image, Authentication authentication) {
+    public ResponseEntity<byte[]> updateImageAd(@PathVariable (name = "id") int id,
+                                                @RequestBody MultipartFile image, Authentication authentication) {
         try {
             adService.updateImage(id, image, authentication);
             return ResponseEntity
