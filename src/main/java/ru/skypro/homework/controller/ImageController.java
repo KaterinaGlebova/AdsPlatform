@@ -62,7 +62,7 @@ public class ImageController {
 
                     )
             })
-    @GetMapping(value = "/ads/{id}")
+    @GetMapping(value = "/ad/{id}")
     public ResponseEntity<byte[]> getAdImage(@PathVariable int id) {
         return ResponseEntity
                 .ok()

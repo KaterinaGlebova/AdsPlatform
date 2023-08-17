@@ -65,8 +65,8 @@ public class AdController {
                     )
             })
     @PostMapping()
-    public ResponseEntity<AdDTO> newAd(@RequestBody @RequestPart CreateOrUpdateAd createOrUpdateAd,
-                                            @RequestBody @RequestPart MultipartFile image, Authentication authentication) {
+    public ResponseEntity<AdDTO> newAd(@RequestPart CreateOrUpdateAd createOrUpdateAd,
+                                       @RequestPart MultipartFile image, Authentication authentication) {
         AdDTO result = adService.createAd(createOrUpdateAd, image, authentication);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
