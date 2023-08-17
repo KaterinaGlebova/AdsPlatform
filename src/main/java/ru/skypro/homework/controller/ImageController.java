@@ -12,13 +12,13 @@ import ru.skypro.homework.service.UserService;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
+
 @RequestMapping("/images")
 @CrossOrigin(value = "http://localhost:3000")
 
 public class ImageController {
-    private UserService userService;
-    private AdService adService;
+    private final UserService userService;
+    private final AdService adService;
 
     public ImageController(UserService userService, AdService adService) {
         this.userService = userService;
@@ -40,7 +40,7 @@ public class ImageController {
                     )
             })
 
-    @GetMapping(value = "user/{email}")
+    @GetMapping(value = "/user/{email}")
     public ResponseEntity<byte[]> getUserAvatar(@PathVariable String email) {
         return ResponseEntity
                 .ok()
@@ -62,9 +62,11 @@ public class ImageController {
 
                     )
             })
-    @GetMapping(value = "/ad/{id}")
-    public byte[] getAdImage(@PathVariable int id) {
-        return adService.getImage(id);
+    @GetMapping(value = "/ads/{id}")
+    public ResponseEntity<byte[]> getAdImage(@PathVariable int id) {
+        return ResponseEntity
+                .ok()
+                .contentType(adService.getImageType(id))
+                .body(adService.getImage(id));
     }
-
 }

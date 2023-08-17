@@ -16,13 +16,13 @@ public class Ad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long id;
+    private Integer id;
 
     @Column(name = "title")
     private String title;
 
     @Column(name = "price")
-    private long price;
+    private Integer price;
 
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")

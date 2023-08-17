@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getByEmail(String email) {
         Optional<User> optional = userRepository.findByEmail(email);
-        return optional.orElse(null);
+        return optional.isEmpty() ? null : optional.get();
     }
 
     /**
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
         UserDTO result = userMapper.userToUserDTO(getFromAuthentication(authentication));
         if (user.getImage() == null) {
             result.setImage(null);
-        } else result.setImage("/image/user/" + user.getEmail());
+        } else result.setImage("/images/user/" + user.getEmail());
         return result;
     }
 

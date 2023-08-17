@@ -15,7 +15,7 @@ public interface AdService {
 
     Ad adAd(Ad ad);
 
-    AdDTO createAd(CreateOrUpdateAd createOrUpdateAd, Authentication authentication, MultipartFile image);
+    AdDTO createAd(CreateOrUpdateAd createOrUpdateAd, MultipartFile image, Authentication authentication);
 
     ExtendedAd getExtendedAd(int id);
 
@@ -23,7 +23,7 @@ public interface AdService {
 
     void deleteAd(int id, Authentication authentication);
 
-    AdDTO updateAd(int id, CreateOrUpdateAd createOrUpdateAd);
+    AdDTO updateAd(int id, CreateOrUpdateAd createOrUpdateAd, Authentication authentication);
 
     Ads getAllByAuthor(Authentication authentication);
 

@@ -10,5 +10,8 @@
         <include file="changelog/table/create-comment-table.xml"/>
         <include file="changelog/table/update-ad-table-add-column.xml"/>
         <include file="changelog/table/update-users-table-add-column.xml"/>
+        <include file="changelog/table/update-users-table-type.xml"/>
+        <include file="changelog/table/update-ad-table-type.xml"/>
+        <include file="changelog/table/update-comment-table-type.xml"/>
 
 </databaseChangeLog>

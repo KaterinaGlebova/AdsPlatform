@@ -1,0 +1,23 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="modifyColumnType_ad" author="glebova">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="ad"/>
+            <columnExists tableName="ad" columnName="id"/>
+            <columnExists tableName="ad" columnName="price"/>
+            <columnExists tableName="ad" columnName="author_id"/>
+        </preConditions>
+        <sql>
+            <![CDATA[
+        ALTER TABLE ad
+        ALTER COLUMN id TYPE INTEGER,
+        ALTER COLUMN price TYPE INTEGER,
+        ALTER COLUMN author_id TYPE INTEGER;
+        ]]>
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

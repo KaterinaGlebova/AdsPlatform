@@ -12,6 +12,7 @@ import ru.skypro.homework.dto.*;
 import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.User;
 import ru.skypro.homework.exception.ForbiddenException;
+import ru.skypro.homework.exception.NotFoundElementException;
 import ru.skypro.homework.exception.ReadOrWriteException;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.repository.AdRepository;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -67,20 +69,20 @@ public class AdServiceImpl implements AdService {
     /**
      * Create new ad
      *
-     * @param createOrUpdateAd
+     * @param newAd
      * @param image
      * @return object AdDTO
      */
     @Override
-    public AdDTO createAd(CreateOrUpdateAd createOrUpdateAd, Authentication authentication, MultipartFile image) {
+    public AdDTO createAd(CreateOrUpdateAd newAd, MultipartFile image, Authentication authentication) {
         Ad ad = new Ad();
         ad.setUser(userService.getFromAuthentication(authentication));
-        ad.setPrice(createOrUpdateAd.getPrice());
-        ad.setTitle(createOrUpdateAd.getTitle());
-        ad.setDescription(createOrUpdateAd.getDescription());
-        setImage(image, ad);
+        ad.setPrice(newAd.getPrice());
+        ad.setTitle(newAd.getTitle());
+        ad.setDescription(newAd.getDescription());
         adAd(ad);
-        return adMapper.adToAdDTO(ad);
+        setImage(image, ad);
+        return adMapper.adToAdDTO(adAd(ad));
     }
 
     /**
@@ -92,7 +94,7 @@ public class AdServiceImpl implements AdService {
     @Override
     public ExtendedAd getExtendedAd(int id) {
         Ad ad = getById(id);
-        return adMapper.toExtendedAd(ad);
+        return adMapper.toExtendedAd(getById(id));
     }
 
     /**
@@ -103,7 +105,11 @@ public class AdServiceImpl implements AdService {
      */
     @Override
     public Ad getById(int id) {
-        return adRepository.findAdById(id);
+        Optional<Ad> optional = adRepository.findAdById(id);
+        if (optional.isEmpty()) {
+            throw new NotFoundElementException(id, Ad.class);
+        }
+        return optional.get();
     }
 
     /**
@@ -125,8 +131,9 @@ public class AdServiceImpl implements AdService {
      * @return object AdDTO
      */
     @Override
-    public AdDTO updateAd(int id, CreateOrUpdateAd createOrUpdateAd) {
+    public AdDTO updateAd(int id, CreateOrUpdateAd createOrUpdateAd,Authentication authentication ) {
         Ad ad = getById(id);
+        authorCheck(ad, authentication);
         ad.setPrice(createOrUpdateAd.getPrice());
         ad.setTitle(createOrUpdateAd.getTitle());
         ad.setDescription(createOrUpdateAd.getDescription());

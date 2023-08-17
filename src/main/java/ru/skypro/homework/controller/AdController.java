@@ -21,12 +21,12 @@ import java.io.IOException;
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
-@RequiredArgsConstructor
+
 @RequestMapping("/ads")
 
 public class AdController {
 
-    private AdService adService;
+    private final AdService adService;
 
     public AdController(AdService adService) {
         this.adService = adService;
@@ -65,8 +65,9 @@ public class AdController {
                     )
             })
     @PostMapping()
-    public ResponseEntity<AdDTO> createAd(@PathVariable CreateOrUpdateAd createOrUpdateAd, MultipartFile image, Authentication authentication){
-        AdDTO result = adService.createAd(createOrUpdateAd, authentication, image);
+    public ResponseEntity<AdDTO> newAd(@RequestBody @RequestPart CreateOrUpdateAd createOrUpdateAd,
+                                            @RequestBody @RequestPart MultipartFile image, Authentication authentication) {
+        AdDTO result = adService.createAd(createOrUpdateAd, image, authentication);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -91,9 +92,9 @@ public class AdController {
                     )
             })
     @GetMapping("/{id}")
-    public ResponseEntity <ExtendedAd> getExtendedAd(@PathVariable int id) {
-        ExtendedAd extendedAd = adService.getExtendedAd(id);
-        return ResponseEntity.ok(extendedAd);
+    public ResponseEntity <ExtendedAd> getExtendedAd(@PathVariable int id, Authentication authentication ) {
+        ExtendedAd result = adService.getExtendedAd(id);
+        return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "Удаление объявления",
@@ -153,8 +154,9 @@ public class AdController {
                     )
             })
     @PatchMapping("/{id}")
-    public ResponseEntity <AdDTO> updateAd(@PathVariable int id, @RequestBody CreateOrUpdateAd createOrUpdateAd) {
-        return ResponseEntity.ok(adService.updateAd(id, createOrUpdateAd));
+    public ResponseEntity <AdDTO> updateAd(@PathVariable int id, @RequestBody CreateOrUpdateAd createOrUpdateAd,
+                                           Authentication authentication ) {
+        return ResponseEntity.ok(adService.updateAd(id, createOrUpdateAd, authentication));
     }
 
     @Operation(summary = "Получение объявлений авторизованного пользователя",
