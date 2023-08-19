@@ -2,6 +2,9 @@ package ru.skypro.homework.dto;
 
 import lombok.Data;
 
+/**
+ * DTO класс комментария
+ */
 @Data
 public class CommentDTO {
 

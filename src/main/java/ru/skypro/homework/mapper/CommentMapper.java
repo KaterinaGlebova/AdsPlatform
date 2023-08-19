@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * Интерфейс для маппинга комментариев.
+ */
 @Component
 @Mapper(componentModel = "spring")
 public interface CommentMapper {

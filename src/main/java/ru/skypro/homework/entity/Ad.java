@@ -2,6 +2,9 @@ package ru.skypro.homework.entity;
 import lombok.*;
 import javax.persistence.*;
 import java.util.List;
+/**
+ * Класс объявления, данные хранятся в базе данных
+ */
 
 @NoArgsConstructor
 @AllArgsConstructor

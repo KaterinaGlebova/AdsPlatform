@@ -5,6 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+/**
+ * Класс комментария, данные хранятся в базе данных
+ */
 
 @NoArgsConstructor
 @AllArgsConstructor

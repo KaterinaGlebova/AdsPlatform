@@ -3,6 +3,9 @@ import lombok.*;
 import ru.skypro.homework.dto.Role;
 
 import javax.persistence.*;
+/**
+ * Класс пользователя, данные хранятся в базе данных
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

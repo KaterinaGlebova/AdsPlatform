@@ -1,6 +1,9 @@
 package ru.skypro.homework.dto;
 
 import lombok.Data;
+/**
+ * DTO класс с полной информацией по объявлению
+ */
 
 @Data
 public class ExtendedAd {

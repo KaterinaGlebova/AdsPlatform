@@ -12,6 +12,11 @@ import ru.skypro.homework.service.UserService;
 import java.util.Collection;
 import java.util.LinkedList;
 
+/**
+ * Сервис для приведения объектов ru.skypro.homework.entity.User к org.springframework.security.core.userdetails.User
+ * Необходимо для корректной работы Spring security.
+ */
+
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserService userService;

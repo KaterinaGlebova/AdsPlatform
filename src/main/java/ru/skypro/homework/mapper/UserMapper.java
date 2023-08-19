@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.UserDTO;
 import ru.skypro.homework.entity.User;
-
+/**
+ * Интерфейс для маппинга пользователей.
+ */
 @Component
 @Mapper(componentModel = "spring")
 public interface UserMapper {

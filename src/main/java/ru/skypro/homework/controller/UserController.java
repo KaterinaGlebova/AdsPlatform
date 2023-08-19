@@ -15,6 +15,9 @@ import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.dto.UserDTO;
 import ru.skypro.homework.service.UserService;
 
+/**
+ * контроллер для обработки запросов на изменение данных пользователя
+ */
 @Slf4j
 @RestController
 @RequestMapping("/users")

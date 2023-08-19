@@ -11,7 +11,9 @@ import ru.skypro.homework.entity.Ad;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * Интерфейс для маппинга объявлений.
+ */
 @Component
 @Mapper(componentModel = "spring")
 public interface AdMapper {

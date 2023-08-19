@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.UserService;
 
+/**
+ * Контроллер по обработке запросов на получение изображений
+ */
 @Slf4j
 @RestController
 

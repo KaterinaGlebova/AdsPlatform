@@ -15,6 +15,9 @@ import ru.skypro.homework.service.AuthService;
 
 import static ru.skypro.homework.dto.Role.USER;
 
+/**
+ * контроллер по обработке запросов на авторизацию и регистрацию
+ */
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
 @RestController

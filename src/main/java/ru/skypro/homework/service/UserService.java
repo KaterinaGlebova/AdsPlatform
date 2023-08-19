@@ -7,6 +7,9 @@ import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.dto.UserDTO;
 import ru.skypro.homework.entity.User;
+/**
+ * Сервис для работы с пользователями
+ */
 
 public interface UserService {
     User saveUser(User user);
